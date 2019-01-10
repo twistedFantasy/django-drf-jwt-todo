@@ -13,6 +13,12 @@ Docker: 18.09.0
 docker-compose: 1.23.1
 ```
 
+# Docker & Docker-Compose install
+``` 
+https://docs.docker.com/install/linux/docker-ce/fedora/
+https://github.com/docker/compose/releases
+```
+
 # How to run it locally
 ```
 cd dockerX
