@@ -10,7 +10,7 @@ class TaskAdmin(admin.ModelAdmin):
     readonly_fields = ['created', 'modified']
     fieldsets = [
         (None, {'fields': ['name', 'type', 'is_completed']}),
-        ('Details', {'fields': ['user', 'description', 'start_date', 'end_date']}),
+        ('Details', {'fields': ['user', 'description', 'start_date', 'end_date', 'analyzer_date']}),
         ('System', {'classes': ['collapse'], 'fields': ['created', 'modified']}),
     ]
     add_fieldsets = [

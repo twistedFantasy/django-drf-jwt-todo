@@ -9,7 +9,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'is_staff', 'full_name', 'role', 'profile']
+        fields = ['email', 'full_name', 'is_staff']
 
 
 class UserWithTasksSerializer(DynamicFieldsMixin, serializers.ModelSerializer):

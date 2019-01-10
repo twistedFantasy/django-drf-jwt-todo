@@ -5,8 +5,8 @@ additional 3-rd party packages to create a simple TODO application. And of cours
 
 # Versions
 ```
-Python: 3.7.1
-Django: 2.1.4
+Python: 3.6.8
+Django: 2.1.5
 Django Rest Framework: 3.9.0
 PostgreSQL: 11.1
 Docker: 18.09.0
@@ -15,5 +15,6 @@ docker-compose: 1.23.1
 
 # How to run it locally
 ```
-docker-compose -f dockerX/docker-compose-local.yml up -d
+cd dockerX
+docker-compose -f docker-compose-local.yml up -d
 ```

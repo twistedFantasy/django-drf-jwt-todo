@@ -33,6 +33,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, BaseModel):
     email = models.EmailField('Email', unique=True, max_length=256)
     full_name = models.CharField('Full Name', max_length=256, default='', blank=True)
+    date_of_birth = models.DateField('Date Of Birth', null=True, blank=True)
     is_active = models.BooleanField('Is Active', default=True)
     is_staff = models.BooleanField('Is Staff', default=False, db_index=True)
     is_superuser = models.BooleanField('Is Superuser', default=False, db_index=True)

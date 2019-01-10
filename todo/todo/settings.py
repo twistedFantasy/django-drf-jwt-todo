@@ -31,9 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd party
-    'debug_toolbar',
     'taggit',
+    'djcelery_email',
+    'debug_toolbar',
     'rest_framework',
+    'django_filters',
+    'rest_framework_filters',
 
     # todo
     'todo.core.apps.Config',
@@ -128,6 +131,43 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# email
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = 'do.not.reply@todo.com'
+
+# redis / celery
+CELERY_DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
+CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
+BROKER_TRANSPORT_OPTIONS = {'socket_timeout': 300}  # 5 minutes
+CELERY_RESULT_BACKEND = os.environ['CELERY_RESULT_BACKEND']
+CELERY_TASK_RESULT_EXPIRES = 3600  # 1 hour
+CELERY_TASK_DEFAULT_EXCHANGE_TYPE = "direct"
+CELERY_TASK_DEFAULT_ROUTING_KEY = "celery"
+CELERY_TASK_DEFAULT_EXCHANGE = "celery"
+CELERY_TASK_DEFAULT_QUEUE = "celery-general"
+CELERY_TASK_QUEUES = {
+    'celery-general': {
+        'exchange': 'celery',
+        'exchange_type': 'topic',
+        # "binding_key": "general.#"
+    },
+}
+CELERY_TASK_ROUTES = {
+    "todo.users.tasks.analyzer.Analyzer": {
+        "queue": "celery-general",
+        # "routing_key": "general.analyzer",
+    },
+}
+CELERY_IMPORTS = [
+    "todo.users.tasks.analyzer",
+]
 
 # auth
 SIMPLE_JWT = {

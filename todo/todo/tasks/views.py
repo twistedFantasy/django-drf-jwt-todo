@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter
 
@@ -12,4 +13,6 @@ class TaskViewSet(ModelViewSet):
     filter_backends = [
         OrderingFilter,
         UserFilterBackend,
+        DjangoFilterBackend,
     ]
+    filter_fields = ['user', 'type', 'is_completed']

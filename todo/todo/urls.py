@@ -5,7 +5,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from todo.users.views import UserWithTasksView
+from todo.users.views import UserViewSet, UserWithTasksView
 from todo.tasks.views import TaskViewSet
 
 
@@ -16,7 +16,7 @@ admin.site.site_title = settings.NAME + suffix
 
 router = routers.DefaultRouter()
 router.register(r'tasks', TaskViewSet)
-# router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     # built-in

@@ -16,6 +16,7 @@ class Task(BaseModel):
     is_completed = models.BooleanField('Is Completed', default=False)
     start_date = models.DateField('Start Date', null=True, blank=True)
     end_date = models.DateField('End Date', null=True, blank=True)
+    analyzer_date = models.DateField('Analyzer Date', null=True, blank=True)
 
     def __str__(self):
         return u'%s (scrape %s)' % (self.name, self.id)
