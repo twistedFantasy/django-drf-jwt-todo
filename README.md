@@ -22,5 +22,5 @@ https://github.com/docker/compose/releases
 # How to run it locally
 ```
 cd dockerX
-docker-compose -f docker-compose-local.yml up -d
+docker-compose -f docker-compose-local.yml -p django-drf-jwt-todo up -d
 ```
