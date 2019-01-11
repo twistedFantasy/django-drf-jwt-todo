@@ -29,7 +29,7 @@ services:
     volumes:
       - ../todo:/usr/src/todo/
       - ./todo:/usr/src/scripts/
-      - /opt/pycharm-2018.1.3/debug-eggs/:/usr/src/pycharm/debug-eggs/
+#      - /opt/pycharm-2018.1.3/debug-eggs/:/usr/src/pycharm/debug-eggs/
     depends_on:
       - postgres
       - redis
@@ -47,7 +47,7 @@ services:
       - todo/develop.env
     volumes:
       - ../todo:/usr/src/todo/
-      - /opt/pycharm-2018.1.3/debug-eggs/:/usr/src/pycharm/debug-eggs/
+#      - /opt/pycharm-2018.1.3/debug-eggs/:/usr/src/pycharm/debug-eggs/
     depends_on:
       - postgres
       - redis

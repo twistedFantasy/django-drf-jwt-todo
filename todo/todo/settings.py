@@ -156,13 +156,13 @@ CELERY_TASK_QUEUES = {
     'celery-general': {
         'exchange': 'celery',
         'exchange_type': 'topic',
-        # "binding_key": "general.#"
+        "binding_key": "general.#"
     },
 }
 CELERY_TASK_ROUTES = {
     "todo.users.tasks.analyzer.Analyzer": {
         "queue": "celery-general",
-        # "routing_key": "general.analyzer",
+        "routing_key": "general.analyzer",
     },
 }
 CELERY_IMPORTS = [
