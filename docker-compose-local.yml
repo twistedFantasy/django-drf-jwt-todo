@@ -1,0 +1,136 @@
+version: '3.7'
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  todo-data:
+  postgres-data:
+  redis-data:
+  portainer-data:
+
+services:
+  todo:
+    build:
+      context: ./
+      dockerfile: ./todo/docker/Dockerfile
+      args:
+         IMAGE: ${PYTHON_IMAGE}
+         APP_PATH: ${APP_PATH}
+    restart: on-failure
+    env_file:
+      - todo/docker/local.env
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host
+    volumes:
+      - ./todo:${APP_PATH}
+      - todo-data:/var/todo/data/
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - network
+
+  worker-general:
+    build:
+      context: ./
+      dockerfile: ./todo/docker/Dockerfile
+      args:
+        IMAGE: ${PYTHON_IMAGE}
+        APP_PATH: ${APP_PATH}
+    command: /usr/local/bin/celery -A todo worker -E -l debug -c 1 -Q celery-general -n celery-general
+    restart: on-failure
+    env_file:
+      - todo/docker/local.env
+    volumes:
+      - ./todo:${APP_PATH}
+    depends_on:
+      - postgres
+      - redis
+      - todo
+    networks:
+      - network
+
+  beat:
+    build:
+      context: ./
+      dockerfile: todo/docker/Dockerfile
+      args:
+        IMAGE: ${PYTHON_IMAGE}
+        APP_PATH: ${APP_PATH}
+    command: /usr/local/bin/celery -A todo beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    restart: on-failure
+    env_file:
+      - todo/docker/local.env
+    volumes:
+      - ./todo:${APP_PATH}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - network
+
+  postgres:
+    image: ${POSTGRES_IMAGE}
+    env_file:
+      - todo/docker/local.env
+    ports:
+      - target: 5432
+        published: 8998
+        protocol: tcp
+        mode: host
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - network
+
+  redis:
+    image: ${REDIS_IMAGE}
+    volumes:
+      - redis-data:/data
+    networks:
+      - network
+
+  flower:
+    build:
+      context: ./
+      dockerfile: todo/docker/Dockerfile
+      args:
+        IMAGE: ${PYTHON_IMAGE}
+        APP_PATH: ${APP_PATH}
+    command: >
+      sh -c "/usr/local/bin/celery flower -A todo --address=0.0.0.0 --port=5555
+            --broker=redis://redis:6379/1 --basic_auth=user1:password1,user2:password2"
+    restart: on-failure
+    env_file:
+      - todo/docker/local.env
+    ports:
+      - target: 5555
+        published: 5555
+        protocol: tcp
+        mode: host
+    volumes:
+      - ./todo:${APP_PATH}
+    depends_on:
+      - postgres
+      - redis
+      - todo
+    networks:
+      - network
+
+  portainer:
+    image: portainer/portainer:1.21.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    ports:
+      - target: 9000
+        published: 8897
+        protocol: tcp
+        mode: host
+    networks:
+      - network

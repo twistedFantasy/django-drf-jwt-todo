@@ -5,22 +5,16 @@ additional 3-rd party packages to create a simple TODO application. And of cours
 
 # Versions
 ```
-Python: 3.6.8
-Django: 2.1.5
-Django Rest Framework: 3.9.0
-PostgreSQL: 11.1
-Docker: 18.09.0
-docker-compose: 1.23.1
+Python: 3.7.4
+Django: 2.2.3
+Django Rest Framework: 3.10.1
+PostgreSQL: 11.5
+Docker: 19.03.1
+docker-compose: 1.24.1
 ```
 
-# Docker & Docker-Compose install
-``` 
-https://docs.docker.com/install/linux/docker-ce/fedora/
-https://github.com/docker/compose/releases
-```
-
-# How to run it locally
-```
-cd dockerX
-docker-compose -f docker-compose-local.yml -p django-drf-jwt-todo up -d
-```
+## Local development
+Installation & Configuration:
+* [virtualbox](./readme/VIRTUALBOX.md)
+* [vagrant](./readme/VAGRANT.md)
+* [docker](./readme/DOCKER.md)

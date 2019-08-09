@@ -1,3 +1,9 @@
+# ide
+.idea
+
+# vagrant
+.vagrant
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -14,7 +20,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+#lib/ -- this breaks codemirror
 lib64/
 parts/
 sdist/

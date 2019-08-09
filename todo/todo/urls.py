@@ -1,11 +1,12 @@
 import debug_toolbar
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from todo.users.views import UserViewSet, UserWithTasksView
+from todo.users.views import ChangePasswordView, UserViewSet
 from todo.tasks.views import TaskViewSet
 
 
@@ -32,5 +33,5 @@ urlpatterns = [
 
     # our apps
     path('api/v1/', include(router.urls)),
-    path('api/v1/user/<pk>/tasks/', UserWithTasksView.as_view(), name='user_with_tasks'),
-]
+    path('api/v1/change/password/', ChangePasswordView.as_view(), name='change_password'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

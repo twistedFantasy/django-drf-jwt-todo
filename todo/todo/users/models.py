@@ -50,7 +50,7 @@ class User(AbstractBaseUser, BaseModel):
         verbose_name_plural = 'Users'
 
     def __str__(self):
-        return '%s (user %s)' % (self.get_full_name(), self.id)
+        return f'{self.get_full_name()} (user {self.id})'
 
     def get_full_name(self):
         return self.full_name

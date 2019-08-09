@@ -1,8 +1,15 @@
 from django.contrib import admin
 
 from todo.tasks.models import Task
+from todo.tags.models import TaskTagModel
 
 
+class TaskTagInline(admin.TabularInline):
+    model = TaskTagModel
+    extra = 1
+
+
+@admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'is_completed', 'modified']
     list_filter = ['type', 'is_completed']
@@ -19,8 +26,6 @@ class TaskAdmin(admin.ModelAdmin):
             'fields': ['email', 'password1', 'password2']}
          ),
     ]
+    inlines = [TaskTagInline]
     ordering = ['-modified']
     filter_horizontal = []
-
-
-admin.site.register(Task, TaskAdmin)

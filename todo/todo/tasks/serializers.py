@@ -1,10 +1,9 @@
-from drf_dynamic_fields import DynamicFieldsMixin
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
 from todo.tasks.models import Task
 
 
-class TaskSerializer(DynamicFieldsMixin, serializers.ModelSerializer):
+class TaskSerializer(ModelSerializer):
 
     class Meta:
         model = Task

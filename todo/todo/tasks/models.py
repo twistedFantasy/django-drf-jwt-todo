@@ -18,10 +18,10 @@ class Task(BaseModel):
     end_date = models.DateField('End Date', null=True, blank=True)
     analyzer_date = models.DateField('Analyzer Date', null=True, blank=True)
 
-    def __str__(self):
-        return u'%s (scrape %s)' % (self.name, self.id)
-
     class Meta:
-        app_label = 'users'
+        app_label = 'tasks'
         verbose_name_plural = 'Tasks'
         ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name} (task {self.id})'

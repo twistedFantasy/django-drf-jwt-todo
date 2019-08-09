@@ -11,13 +11,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'scmsnwjtfsv9__0v264cw)g9c)-$+iuns+bvl$bdk#x&c)-&2a'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 ENV = os.environ['ENV']
 
-ALLOWED_HOSTS = ['localhost'] # FIXME:
+ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
 
 
 # Application definition
@@ -31,18 +31,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd party
-    'taggit',
+    'corsheaders',
     'djcelery_email',
+    'django_celery_beat',
     'debug_toolbar',
-    'rest_framework',
     'django_filters',
+    'rest_framework',
     'rest_framework_filters',
+    'taggit',
 
     # todo
     'todo.core.apps.Config',
     'todo.core',
     'todo.users',
     'todo.tasks',
+    'todo.tags',
+    'todo.histories',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # must come after auth above
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -140,7 +144,7 @@ EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-DEFAULT_FROM_EMAIL = 'do.not.reply@todo.com'
+DEFAULT_FROM_EMAIL = 'do.not.reply@codex-soft.com'
 
 # redis / celery
 CELERY_DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
@@ -195,7 +199,25 @@ REST_FRAMEWORK = {
     ],
     'URL_FORMAT_OVERRIDE': 'response_format',
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
 }
+
+# static files (CSS, JavaScript, Images)
+STATIC_ROOT = "/usr/src/static"
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (
+  '/usr/src/todo/static',
+)
+
+# Codemirror
+CODEMIRROR_PATH = 'components/codemirror-5.48.2'  # latest changeset from github
+
+# tests
+TEST_STAFFUSER_EMAIL = 'test.staffuser@gmail.com'
+TEST_STAFFUSER_PASSWORD = 'test.staffuser.password'
+TEST_SIMPLEUSER_EMAIL = 'test.simpleuser@gmail.com'
+TEST_SIMPLEUSER_PASSWORD = 'test.simpleuser.password'
 
 # debug toolbar
 def show_toolbar(request):

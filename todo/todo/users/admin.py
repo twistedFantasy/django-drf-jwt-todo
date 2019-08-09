@@ -9,6 +9,7 @@ from todo.users.tasks.analyzer import Analyzer
 from todo.core.decorators import message_user
 
 
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'full_name', 'modified']
     list_filter = ['is_staff', 'tags']
@@ -44,5 +45,4 @@ class UserAdmin(BaseUserAdmin):
     notify_user.short_description = 'Notify user'
 
 
-admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
